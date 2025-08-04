@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <item android:title="To-Do"
+        android:id="@+id/to_do_icon"/>
+    <item android:title="Timeline"
+        android:id="@+id/timeline_icon"/>
 </menu>

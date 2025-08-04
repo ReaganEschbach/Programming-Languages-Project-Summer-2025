@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+//import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 // import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.pl_final_project.databinding.FragmentKanbanBinding
@@ -17,7 +17,7 @@ class KanbanFragment : Fragment() {
     private var _binding: FragmentKanbanBinding? = null
     private val binding get() = _binding!!
 
-    private val sharedViewModel: SharedViewModel by activityViewModels()
+    //private val sharedViewModel: SharedViewModel by activityViewModels()
 
     private lateinit var todoAdapter: KanbanColumnAdapter
     private lateinit var inProgressAdapter: KanbanColumnAdapter

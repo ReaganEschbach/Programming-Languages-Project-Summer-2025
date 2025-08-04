@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+//import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 // import com.example.pl_final_project.R // If accessing resources like drawables
 import com.example.pl_final_project.databinding.FragmentTimelineBinding
@@ -17,7 +17,7 @@ class TimelineFragment : Fragment() {
     private var _binding: FragmentTimelineBinding? = null
     private val binding get() = _binding!!
 
-    private val sharedViewModel: SharedViewModel by activityViewModels()
+    //private val sharedViewModel: SharedViewModel by activityViewModels()
     private lateinit var timelineAdapter: TimelineAdapter
 
     override fun onCreateView(

@@ -43,4 +43,16 @@ data class TaskWithDeadline(
     val deadline: Date
 ) : AbstractItem(id, text, isCompleted, creationDate, kanbanColumn) {
     fun isOverdue(): Boolean = !isCompleted && deadline.before(Date())
+
+    companion object {
+        val taskList: MutableList<TaskWithDeadline> = mutableListOf()
+
+        fun addTask(task: TaskWithDeadline) {
+            taskList.add(task)
+        }
+
+        fun removeTask(task: TaskWithDeadline) {
+            taskList.remove(task)
+        }
+    }
 }
