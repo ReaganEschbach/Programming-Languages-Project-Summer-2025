@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="What kind of task would you like to create?"
+            android:textSize="20sp"
+            android:layout_marginVertical="10dp"
+            android:textColor="@color/black">
+        </TextView>
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Simple To-Do Item"
+            android:id="@+id/create_simple_item_pop_up">
+        </Button>
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="10dp"
+            android:text="Task with Deadline"
+            android:id="@+id/create_timeline_item_pop_up">
+        </Button>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

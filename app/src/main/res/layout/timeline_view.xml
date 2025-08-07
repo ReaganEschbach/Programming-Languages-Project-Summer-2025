@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.kanban.MainActivity">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +15,7 @@
             android:layout_marginHorizontal="60dp"
             android:layout_marginVertical="20dp"
             android:text="Create New Item"
-            android:id="@+id/create_new">
+            android:id="@+id/timeline_create_new">
 
         </Button>
 
@@ -30,23 +26,12 @@
             android:gravity="center">
 
             <ListView
-                android:layout_width="135dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/to_do">
+                android:id="@+id/timeline_list">
 
             </ListView>
-            <ListView
-                android:layout_width="135dp"
-                android:layout_height="match_parent"
-                android:id="@+id/in_progress">
 
-            </ListView>
-            <ListView
-                android:layout_width="135dp"
-                android:layout_height="match_parent"
-                android:id="@+id/completed">
-
-            </ListView>
 
         </LinearLayout>
 
@@ -62,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
                 android:text="To-Do"
-                android:id="@+id/kanban_to_do">
+                android:id="@+id/timeline_to_do">
             </Button>
 
             <Button
@@ -70,11 +55,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
                 android:text="Timeline"
-                android:id="@+id/kanban_timeline">
+                android:id="@+id/timeline_timeline">
             </Button>
 
         </LinearLayout>
 
     </LinearLayout>
+
+
 
 </RelativeLayout>
