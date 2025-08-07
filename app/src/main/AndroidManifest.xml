@@ -27,6 +27,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".CreateSimpleItem" />
+        <activity android:name=".CreateTimedItem" />
+        <activity android:name=".ui.timeline.Timeline" />
     </application>
 
 </manifest>
