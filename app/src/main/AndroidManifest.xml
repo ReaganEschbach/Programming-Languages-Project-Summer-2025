@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PL_Final_Project"
         tools:targetApi="31">
+        <activity android:name=".CreateTimedItem"
+            android:exported="true"/>
+        <activity android:name=".ui.timeline.Timeline"
+            android:exported="true"/>
+        <activity android:name=".CreateSimpleItem"
+            android:exported="true"/>
         <activity
             android:name=".ui.kanban.MainActivity"
             android:exported="true">
