@@ -1,10 +1,11 @@
-package com.example.pl_final_project.ui.kanban;
+package com.example.pl_final_project;
 
 import static com.example.pl_final_project.model.AbstractItem.universalItems;
 
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,12 +16,7 @@ import android.widget.ListView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.pl_final_project.CreateTimedItem;
-import com.example.pl_final_project.CreateSimpleItem;
-import com.example.pl_final_project.CreateTimedItem;
-import com.example.pl_final_project.R;
 import com.example.pl_final_project.model.AbstractItem;
-import com.example.pl_final_project.ui.timeline.Timeline;
 
 import java.util.ArrayList;
 
@@ -36,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+
+        timelineNav = findViewById(R.id.kanban_timeline);
+
 
         //popup for when you want to create new item
         createDialog = new Dialog(MainActivity.this);
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //initiate create new item popup to new activity
-        createNewItemNav.findViewById(R.id.create_new);
+        createNewItemNav = findViewById(R.id.create_new);
         createNewItemNav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,15 +76,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //go to timeline
-        timelineNav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                Intent intent = new Intent(MainActivity.this, Timeline.class);
-                startActivity(intent);
-            }
-        });
-
+        if(timelineNav != null) {
+            timelineNav.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                    Intent intent = new Intent(MainActivity.this, Timeline.class);
+                    startActivity(intent);
+                }
+            });
+        } else{
+            Log.e("MainActivity", "timelinenav button not found in layout!");
+        }
 
 
 
@@ -188,7 +191,6 @@ public class MainActivity extends AppCompatActivity {
                 completedYes.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //todo: change task over to "Complete"
                         AbstractItem selectedTask = col2item.get(position);
                         selectedTask.setKanbanColumn("InProgress");
                         col2item.remove(selectedTask);

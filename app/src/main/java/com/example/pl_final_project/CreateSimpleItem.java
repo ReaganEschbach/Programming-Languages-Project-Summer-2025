@@ -2,6 +2,7 @@ package com.example.pl_final_project;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -71,20 +72,29 @@ public class CreateSimpleItem extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
-        add.setOnClickListener(new View.OnClickListener() {
+
+        if(add != null && itemText!= null) {
+            add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                        SimpleTask newTask = new SimpleTask(itemText.getText().toString());
+                        itemNames.add(itemText.getText().toString());
+                        adapter.notifyDataSetChanged();
+                        itemText.setText("");
+                }
+            });
+        }
+
+
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!itemText.toString().isEmpty()){
-                    itemText.setText("");
-                    Toast.makeText(getApplicationContext(), "Please enter text", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    SimpleTask newTask = new SimpleTask(itemText.getText().toString());
-                }
+                finish();
+                Intent intent = new Intent(CreateSimpleItem.this, MainActivity.class);
+                startActivity(intent);
+
             }
         });
-
-
 
 
     }

@@ -1,4 +1,4 @@
-package com.example.pl_final_project.ui.timeline;
+package com.example.pl_final_project;
 
 import static com.example.pl_final_project.model.TaskWithDeadline.getDatedItems;
 
@@ -13,9 +13,6 @@ import android.widget.ListView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.pl_final_project.CreateTimedItem;
-import com.example.pl_final_project.CreateSimpleItem;
-import com.example.pl_final_project.R;
 import com.example.pl_final_project.model.TaskWithDeadline;
 
 import java.util.ArrayList;
