@@ -28,28 +28,28 @@ Git: To clone the repository.
 
 ### Installation
 Clone the repository:
-
+```
 git clone https://github.com/ReaganEschbach/Programming-Languages-Project-Summer-2025.git
-
+```
 
 
 Navigate to the project directory:
-
+```
 cd Programming-Languages-Project-Summer-2025
-
+```
 
 
 Build the project using Gradle:
-
+```
 ./gradlew build
-
+```
 
 
 ### Running the Application
 To run the main application, use the following Gradle command from the project root directory:
-
+```
 ./gradlew run
-
+```
 
 
 ### Technologies Used
