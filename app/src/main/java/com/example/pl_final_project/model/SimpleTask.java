@@ -17,14 +17,14 @@ public class SimpleTask extends AbstractItem{
         super(text,"ToDo");
     }
 
-   public static void removeTask(SimpleTask taskToRemove){
+    public static void removeTask(SimpleTask taskToRemove){
         if(taskToRemove==null){return;}
         else{
             simpleItems.remove(taskToRemove);
             AbstractItem.removeUniversalItem(taskToRemove);
         }
-   }
-   public static void removeByIndex(int index){
+    }
+    public static void removeByIndex(int index){
         if(index >= 0 && index < simpleItems.size()){
             SimpleTask taskToRemove = simpleItems.get(index);
             simpleItems.remove(index);

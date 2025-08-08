@@ -3,6 +3,7 @@ package com.example.pl_final_project;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Intent; // Added import
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +31,9 @@ public class CreateTimedItem extends AppCompatActivity {
         dateButton = findViewById(R.id.date_picker);
         dateButton.setText(getTodaysDate());
 
+        itemText = findViewById(R.id.item_name_time); // Initialized itemText
+        add = findViewById(R.id.add_button_time);     // Initialized add button
+
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,7 +41,33 @@ public class CreateTimedItem extends AppCompatActivity {
             }
         });
 
+        backToMain = findViewById(R.id.back_to_main_create_time);
+        backToMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish(); // This will close CreateTimedItem and go back to MainActivity
+            }
+        });
 
+        if (add != null && itemText != null && dateButton != null) {
+            add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String itemName = itemText.getText().toString();
+                    String itemDate = dateButton.getText().toString();
+
+                    if (!itemName.isEmpty()) {
+                        Intent resultIntent = new Intent();
+                        resultIntent.putExtra("NEW_ITEM_TEXT", itemName);
+                        resultIntent.putExtra("NEW_ITEM_DATE", itemDate);
+                        setResult(AppCompatActivity.RESULT_OK, resultIntent);
+                        finish();
+                    } else {
+                        itemText.setError("Item name cannot be empty");
+                    }
+                }
+            });
+        }
 
     }
 

@@ -52,32 +52,48 @@
                 android:textSize="20sp">
             </TextView>
         </LinearLayout>
-        <LinearLayout
+
+        <FrameLayout
+            android:id="@+id/content_area"
             android:layout_width="match_parent"
-            android:layout_height="550dp"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-            <ListView
-                android:layout_width="135dp"
+            <LinearLayout
+                android:id="@+id/kanban_board_view"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/to_do">
+                android:orientation="horizontal"
+                android:gravity="center">
 
-            </ListView>
-            <ListView
-                android:layout_width="135dp"
+                <ListView
+                    android:layout_width="135dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/to_do">
+
+                </ListView>
+                <ListView
+                    android:layout_width="135dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/in_progress">
+
+                </ListView>
+                <ListView
+                    android:layout_width="135dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/completed">
+
+                </ListView>
+            </LinearLayout>
+
+            <include
+                android:id="@+id/timeline_view_content"
+                layout="@layout/timeline_view"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/in_progress">
+                android:visibility="gone" />
 
-            </ListView>
-            <ListView
-                android:layout_width="135dp"
-                android:layout_height="match_parent"
-                android:id="@+id/completed">
-
-            </ListView>
-
-        </LinearLayout>
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

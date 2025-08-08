@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.Nullable; // Added for onActivityResult
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pl_final_project.model.AbstractItem;
@@ -23,9 +24,35 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button createNewItemNav, timelineNav, createSimpleItemNav, createTimedItemNav;
+    Button createNewItemNav, timelineNav, createSimpleItemNav, createTimedItemNav, toDoNav;
     ListView toDo, inProgress, complete;
     Dialog createDialog, startTaskDialog, finishTaskDialog;
+    View kanbanBoardView, timelineViewContent;
+
+    // Added for Timed Items
+    private ArrayList<TimedItem> timedItemsList;
+    private ArrayAdapter<TimedItem> timedItemsAdapter;
+    private ListView timelineListView;
+    private static final int ADD_TIMED_ITEM_REQUEST = 1;
+
+    // Inner class for TimedItem
+    public static class TimedItem {
+        String text;
+        String date;
+
+        public TimedItem(String text, String date) {
+            this.text = text;
+            this.date = date;
+        }
+
+        public String getText() { return text; }
+        public String getDate() { return date; }
+
+        @Override
+        public String toString() {
+            return date + ": " + text; // Simple representation for ArrayAdapter
+        }
+    }
 
 
     @Override
@@ -34,9 +61,14 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-
+        // Initialize views for switching content
+        kanbanBoardView = findViewById(R.id.kanban_board_view);
+        timelineViewContent = findViewById(R.id.timeline_view_content);
+        toDoNav = findViewById(R.id.kanban_to_do);
         timelineNav = findViewById(R.id.kanban_timeline);
 
+        // Initialize Timed Items list
+        timedItemsList = new ArrayList<>();
 
         //popup for when you want to create new item
         createDialog = new Dialog(MainActivity.this);
@@ -51,17 +83,16 @@ public class MainActivity extends AppCompatActivity {
         createTimedItemNav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
                 Intent intent = new Intent(MainActivity.this, CreateTimedItem.class);
-                startActivity(intent);
+                startActivityForResult(intent, ADD_TIMED_ITEM_REQUEST); // Changed to startActivityForResult
                 createDialog.dismiss();
             }
         });
         createSimpleItemNav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
                 Intent intent = new Intent(MainActivity.this, CreateSimpleItem.class);
+                // If CreateSimpleItem also needs to return data, use startActivityForResult here too
                 startActivity(intent);
                 createDialog.dismiss();
             }
@@ -76,23 +107,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //go to timeline
+        // Switch to Timeline View
         if(timelineNav != null) {
             timelineNav.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finish();
-                    Intent intent = new Intent(MainActivity.this, Timeline.class);
-                    startActivity(intent);
+                    if (timelineViewContent != null && kanbanBoardView != null) {
+                        timelineViewContent.setVisibility(View.VISIBLE);
+                        kanbanBoardView.setVisibility(View.GONE);
+                        // Initialize timeline ListView and Adapter here, if not already
+                        setupTimelineListView(); 
+                    } else {
+                        Log.e("MainActivity", "Timeline or Kanban view is null and cannot be switched.");
+                    }
                 }
             });
         } else{
-            Log.e("MainActivity", "timelinenav button not found in layout!");
+            Log.e("MainActivity", "timelineNav button not found in layout!");
         }
 
-
-
-
+        // Switch back to To-Do/Kanban View
+        if(toDoNav != null) {
+            toDoNav.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (kanbanBoardView != null && timelineViewContent != null) {
+                        kanbanBoardView.setVisibility(View.VISIBLE);
+                        timelineViewContent.setVisibility(View.GONE);
+                    } else {
+                        Log.e("MainActivity", "Kanban or Timeline view is null and cannot be switched.");
+                    }
+                }
+            });
+        } else{
+            Log.e("MainActivity", "toDoNav button (R.id.kanban_to_do) not found in layout!");
+        }
 
         //kanban
         toDo = findViewById(R.id.to_do);
@@ -144,12 +193,6 @@ public class MainActivity extends AppCompatActivity {
         Button toDoNo = startTaskDialog.findViewById(R.id.to_do_no);
         Button completedYes = finishTaskDialog.findViewById(R.id.completed_yes);
         Button completedNo = finishTaskDialog.findViewById(R.id.completed_no);
-
-
-
-
-
-
 
         //putting tasks in different columns
 
@@ -250,11 +293,42 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, completedItem + " marked as complete", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
-
-
     }
 
+    // Add this new method to setup timeline list view
+    private void setupTimelineListView() {
+        if (timelineListView == null) { // Initialize if not already done
+            timelineListView = findViewById(R.id.timeline_list); // Make sure this ID is in timeline_view.xml
+        }
+
+        if (timelineListView != null && timedItemsAdapter == null) { // Setup adapter if not already done
+            timedItemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, timedItemsList);
+            timelineListView.setAdapter(timedItemsAdapter);
+        } else if (timelineListView == null) {
+            Log.e("MainActivity", "timeline_list_view not found in the current layout. Ensure it's in timeline_view.xml and timelineViewContent is visible.");
+        }
+        // If adapter already exists, just notify it if the list changed (handled in onActivityResult)
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ADD_TIMED_ITEM_REQUEST && resultCode == AppCompatActivity.RESULT_OK) {
+            if (data != null) {
+                String itemText = data.getStringExtra("NEW_ITEM_TEXT");
+                String itemDate = data.getStringExtra("NEW_ITEM_DATE");
+
+                if (itemText != null && itemDate != null) {
+                    TimedItem newItem = new TimedItem(itemText, itemDate);
+                    timedItemsList.add(newItem);
+                    // TODO: Optionally sort timedItemsList by date here
+                    if (timedItemsAdapter != null) {
+                        timedItemsAdapter.notifyDataSetChanged();
+                    }
+                    Toast.makeText(this, "Timed item: " + itemText + " added!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
 }
