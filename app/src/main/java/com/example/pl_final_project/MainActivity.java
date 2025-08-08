@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -103,23 +104,16 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> col2String = new ArrayList<>();
         ArrayList<String> col3String = new ArrayList<>();
 
-        //actual items
-        ArrayList<AbstractItem> col1item = new ArrayList<>();
-        ArrayList<AbstractItem> col2item = new ArrayList<>();
-        ArrayList<AbstractItem> col3item = new ArrayList<>();
 
         for(AbstractItem task : universalItems){
-            if(task.getKanbanColumn().equals("ToDo")){
+            if("ToDo".equals(task.getKanbanColumn())){
                 col1String.add(task.getText());
-                col1item.add(task);
             }
-            else if(task.getKanbanColumn().equals("InProgress")){
+            else if("InProgress".equals(task.getKanbanColumn())){
                 col2String.add(task.getText());
-                col2item.add(task);
             }
-            else if(task.getKanbanColumn().equals("Done")){
+            else if("Done".equals(task.getKanbanColumn())){
                 col3String.add(task.getText());
-                col3item.add(task);
             }
         }
 
@@ -132,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         inProgress.setAdapter(adapter2);
         complete.setAdapter(adapter3);
 
+            //pop ups
         startTaskDialog = new Dialog(MainActivity.this);
         startTaskDialog.setContentView(R.layout.task_click_pop_up);
         startTaskDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -166,11 +161,28 @@ public class MainActivity extends AppCompatActivity {
                 toDoYes.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //todo: change task over to "InProgress"
-                        AbstractItem selectedTask = col1item.get(position);
-                        selectedTask.setKanbanColumn("InProgress");
-                        col1item.remove(selectedTask);
-                        col2item.add(selectedTask);
+                        if (position >= 0 && position < col1String.size()){
+                            String itemToMove = col1String.get(position);
+                            AbstractItem taskObject = AbstractItem.getItemByName(itemToMove);
+
+                            //moving item
+                            if(taskObject != null){
+                             taskObject.setKanbanColumn("InProgress");
+                            }
+                            else{
+                                Log.w("MainActivity", "Could not find task object for: " + itemToMove);
+
+                            }
+
+                            //removing item from list and adapter
+                            col1String.remove(position);
+                            adapter1.notifyDataSetChanged();
+
+                            //adding item to new list
+                            col2String.add(itemToMove);
+                            adapter2.notifyDataSetChanged();
+                        }
+
                     }
                 });
                 toDoNo.setOnClickListener(new View.OnClickListener() {
@@ -191,10 +203,27 @@ public class MainActivity extends AppCompatActivity {
                 completedYes.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AbstractItem selectedTask = col2item.get(position);
-                        selectedTask.setKanbanColumn("InProgress");
-                        col2item.remove(selectedTask);
-                        col3item.add(selectedTask);
+                        if (position >= 0 && position < col2String.size()){
+                            String itemToMove = col2String.get(position);
+                            AbstractItem taskObject = AbstractItem.getItemByName(itemToMove);
+
+                            //moving item
+                            if(taskObject != null){
+                                taskObject.setKanbanColumn("InProgress");
+                            }
+                            else{
+                                Log.w("MainActivity", "Could not find task object for: " + itemToMove);
+
+                            }
+
+                            //removing item from list and adapter
+                            col2String.remove(position);
+                            adapter2.notifyDataSetChanged();
+
+                            //adding item to new list
+                            col3String.add(itemToMove);
+                            adapter3.notifyDataSetChanged();
+                        }
                     }
                 });
                 completedNo.setOnClickListener(new View.OnClickListener() {
@@ -203,6 +232,19 @@ public class MainActivity extends AppCompatActivity {
                         finishTaskDialog.dismiss();
                     }
                 });
+            }
+        });
+
+        complete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String completedItem = col3String.get(position);
+                AbstractItem itemToMove = AbstractItem.getItemByName(completedItem);
+                itemToMove.setKanbanColumn("Done");
+
+                col3String.remove(position);
+                adapter3.notifyDataSetChanged();
+                Toast.makeText(MainActivity.this, completedItem + " marked as complete", Toast.LENGTH_SHORT).show();
             }
         });
 

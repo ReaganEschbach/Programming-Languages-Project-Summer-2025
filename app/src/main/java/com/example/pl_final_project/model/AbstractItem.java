@@ -85,4 +85,12 @@ public class AbstractItem {
         universalItems.remove(item);
     }
 
+    public static AbstractItem getItemByName(String name){
+        for(AbstractItem task : universalItems){
+            if(task.getText().equals(name)){
+                return task;
+            }
+        }
+        return null;
+    }
 }
