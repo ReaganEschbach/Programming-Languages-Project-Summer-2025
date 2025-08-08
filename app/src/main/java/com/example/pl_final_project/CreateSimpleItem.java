@@ -47,6 +47,7 @@ public class CreateSimpleItem extends AppCompatActivity {
 
         adapter = new ArrayAdapter<>( this, android.R.layout.simple_list_item_multiple_choice, itemNames);
         list.setAdapter(adapter);
+        list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE); // Add this line
 
         //setting up array to display items
         for(SimpleTask task: SimpleTask.getSimpleTasks()){

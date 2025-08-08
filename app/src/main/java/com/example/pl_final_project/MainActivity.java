@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
                             col2String.add(itemToMove);
                             adapter2.notifyDataSetChanged();
                         }
-
+                        startTaskDialog.dismiss(); // Dismiss dialog after action
                     }
                 });
                 toDoNo.setOnClickListener(new View.OnClickListener() {
@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
 
                             //moving item
                             if(taskObject != null){
-                                taskObject.setKanbanColumn("InProgress");
+                                taskObject.setKanbanColumn("Done"); // Corrected from "InProgress"
                             }
                             else{
                                 Log.w("MainActivity", "Could not find task object for: " + itemToMove);
@@ -224,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
                             col3String.add(itemToMove);
                             adapter3.notifyDataSetChanged();
                         }
+                        finishTaskDialog.dismiss(); // Dismiss dialog after action
                     }
                 });
                 completedNo.setOnClickListener(new View.OnClickListener() {
@@ -240,7 +241,9 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String completedItem = col3String.get(position);
                 AbstractItem itemToMove = AbstractItem.getItemByName(completedItem);
-                itemToMove.setKanbanColumn("Done");
+                if (itemToMove != null) { // Added null check for safety
+                    itemToMove.setKanbanColumn("Done");
+                }
 
                 col3String.remove(position);
                 adapter3.notifyDataSetChanged();
