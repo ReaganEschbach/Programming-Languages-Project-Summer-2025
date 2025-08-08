@@ -66,7 +66,7 @@ public class CreateTimedItem extends AppCompatActivity {
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
         datePickerDialog = new DatePickerDialog(this, AlertDialog.THEME_HOLO_LIGHT, dateSetListener, year, month, day);
-        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+//        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
 
     }
 

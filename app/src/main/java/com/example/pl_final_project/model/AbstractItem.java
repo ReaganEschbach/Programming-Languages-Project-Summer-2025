@@ -93,4 +93,14 @@ public class AbstractItem {
         }
         return null;
     }
+
+    public static ArrayList<TaskWithDeadline> getDatedItems() {
+        ArrayList<TaskWithDeadline> datedItems = new ArrayList<>();
+        for (AbstractItem item : universalItems) {
+            if (item instanceof TaskWithDeadline) {
+                datedItems.add((TaskWithDeadline) item);
+            }
+        }
+        return datedItems;
+    }
 }
