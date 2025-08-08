@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pl_final_project.model.AbstractItem;
@@ -55,22 +58,39 @@ public class CreateSimpleItem extends AppCompatActivity {
             public void onClick(View v) {
                 SparseBooleanArray checkedItemPositions = list.getCheckedItemPositions();
 
-                //if there's only one item checked and one in the list
-                if(list.getCount()==1 && SimpleTask.getSimpleTasks().size()==1){
-                    adapter.remove(itemNames.get(0));
-                    SimpleTask.removeTaskFromArray(0);
+                ArrayList<String> itemsToRemoveFromAdapter = new ArrayList<>();
+                ArrayList<SimpleTask> tasksToRemoveFromStatic = new ArrayList<>();
 
-                }
-                for (int i = checkedItemPositions.size() - 1; i >= 0; i--) {
-                    if (checkedItemPositions.valueAt(i)) {
+                for (int i = checkedItemPositions.size() - 1; i>=0; i--){
+                    if(checkedItemPositions.valueAt(i)){
                         int position = checkedItemPositions.keyAt(i);
-                        itemNames.remove(i);
-                        AbstractItem.removeUniversalItem(itemNames.get(i).toString()); //todo -> check and debug
-                    }
 
+                        if(position<itemNames.size() && position < SimpleTask.getSimpleTasks().size()){
+                            itemsToRemoveFromAdapter.add(itemNames.get(position));
+                            tasksToRemoveFromStatic.add(SimpleTask.getSimpleTasks().get(position));
+                        }
+                        else{
+                            Toast.makeText(CreateSimpleItem.this, "Out of Bounds Error", Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
-                adapter.notifyDataSetChanged();
+
+                if(itemsToRemoveFromAdapter.isEmpty()){
+                    Toast.makeText(CreateSimpleItem.this, "No items selected to remove", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                //removing items
+                for(String itemName : itemsToRemoveFromAdapter){
+                    adapter.remove(itemName); //automatically updates adapter
+                }
+                for(SimpleTask task : tasksToRemoveFromStatic){
+                    SimpleTask.removeTask(task);
+                }
+
+                list.clearChoices();
             }
+
         });
 
         if(add != null && itemText!= null) {

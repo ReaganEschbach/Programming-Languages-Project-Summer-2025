@@ -16,17 +16,20 @@ public class SimpleTask extends AbstractItem{
     public SimpleTask(String text) {
         super(text,"ToDo");
     }
-    public void removeTaskFromArray(String name){
-        for(int i = simpleItems.size(); i>=0; i--){
-            if(simpleItems.get(i).getText().equals(name)){
-                simpleItems.remove(i);
-                removeUniversalItem(name);
-            }
+
+   public static void removeTask(SimpleTask taskToRemove){
+        if(taskToRemove==null){return;}
+        else{
+            simpleItems.remove(taskToRemove);
+            AbstractItem.removeUniversalItem(taskToRemove);
         }
-    }
-    public static void removeTaskFromArray(int index){
-        simpleItems.remove(index);
-        universalItems.remove(simpleItems.get(index).getText());
+   }
+   public static void removeByIndex(int index){
+        if(index >= 0 && index < simpleItems.size()){
+            SimpleTask taskToRemove = simpleItems.get(index);
+            simpleItems.remove(index);
+            AbstractItem.removeUniversalItem(taskToRemove);
+        }
     }
 
     public static ArrayList<SimpleTask> getSimpleTasks() {

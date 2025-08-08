@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="60dp"
             android:text="Remove Item"
+            android:focusable="false"
             android:id="@+id/remove_button_simple">
         </Button>
 

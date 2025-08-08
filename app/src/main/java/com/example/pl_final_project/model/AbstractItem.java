@@ -81,12 +81,8 @@ public class AbstractItem {
         return null;
     }
 
-    public static void removeUniversalItem(String item){
-        for(int i = universalItems.size(); i>=0; i--){
-            if(universalItems.get(i).getText().equals(item)){
-                universalItems.remove(i);
-            }
-        }
+    public static void removeUniversalItem(AbstractItem item){
+        universalItems.remove(item);
     }
 
 }
