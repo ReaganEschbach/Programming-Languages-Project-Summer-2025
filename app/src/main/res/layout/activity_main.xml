@@ -22,7 +22,36 @@
             android:id="@+id/create_new">
 
         </Button>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="To Do:"
+                android:textStyle="bold"
+                android:layout_marginRight="60dp"
+                android:textSize="20sp">
+            </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="In Progress:"
+                android:textStyle="bold"
+                android:textSize="20sp">
+            </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Completed:"
+                android:layout_marginLeft="15dp"
+                android:textStyle="bold"
+                android:textSize="20sp">
+            </TextView>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="550dp"
